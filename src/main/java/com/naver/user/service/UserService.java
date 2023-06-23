@@ -3,8 +3,9 @@ package com.naver.user.service;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class UserService {
     public UserService() {
         System.out.println("----------------- UserService--------------");
@@ -18,7 +19,8 @@ public class UserService {
     @Bean
     public int getCount(){
         System.out.println("----------------- get Count --------------");
-        return count;
+        count++;
+        return 1000;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.naver.user.controller;
 
+import com.naver.user.dto.User;
 import com.naver.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -20,15 +21,16 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "/user")
 public class UserController {
-    List<Map<String, String>> users = new ArrayList<>();
+    List<User> users = new ArrayList<>();
 //    @Autowired
     private final UserService userService;
     private final ApplicationContext applicationContext;
+    private final int getCount;
 
-    public UserController(UserService userService, ApplicationContext applicationContext) {
-        System.out.println("----------------- UserController --------------");
+    public UserController(UserService userService, ApplicationContext applicationContext, int getCount) {
         this.userService = userService;
         this.applicationContext = applicationContext;
+        this.getCount = getCount;
     }
 
     //    @RequestMapping(method = RequestMethod.GET, value = "/test")
@@ -44,23 +46,29 @@ public class UserController {
         System.out.println(userService.test());
         String[] beanDefinitionNames = applicationContext
                 .getBeanDefinitionNames();
-        for (String s:beanDefinitionNames) {
-            System.out.println(s);
-        }
+//        for (String s:beanDefinitionNames) {
+//            System.out.println(s);
+//        }
+        System.out.println(getCount);
         model
                 .addAttribute("serverTime"
                         , LocalDateTime.now().toString());
         System.out.println(users);
+        if(users.size()>0) users.get(0).setId("1122222");
         return "index";
     }
     @PostMapping("/test2")
     public String insertUser(HttpServletRequest req) {
         String id = req.getParameter("id");
         String pw = req.getParameter("pw");
-        Map<String, String> map = new HashMap<>();
-        map.put("id", id);
-        map.put("pw", pw);
-        users.add(map);
+//        Map<String, String> map = new HashMap<>();
+//        map.put("id", id);
+//        map.put("pw", pw);
+        User user = new User(id, pw);
+//        user.setId(id);
+//        user.setPw(pw);
+        users.add(user);
+        users.add(user);
         return "redirect:/user/test2";
     }
 }
